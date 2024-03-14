@@ -1,6 +1,6 @@
 export interface Booking {
   id: number
   client: string
-  bookingDate: Date
+  bookingDate: string
   tourId: number
 }

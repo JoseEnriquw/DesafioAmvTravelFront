@@ -3,7 +3,10 @@ import * as React from 'react'
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import { FormularyAddTour } from '../formulary/FormularyAddTour'
-import { Box } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
+import { FormularyUpdateTour } from '../formulary/FormularyUpdateTour'
+import { type Tour } from '../../types/Tour'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -17,23 +20,44 @@ const style = {
   p: 4
 }
 
-export function TourModal () {
+export function TourModal (tour?: Tour) {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => { setOpen(true) }
   const handleClose = () => { setOpen(false) }
 
   return (
     <div>
-      <Button onClick={handleOpen}>Add Tour</Button>
+      {tour !== undefined && tour.id > 0
+        ? (
+             <IconButton aria-label="delete" color="primary" onClick={handleOpen}>
+                <EditIcon />
+             </IconButton>
+          )
+        : (
+
+          <Button onClick={handleOpen}>Add Tour</Button>
+          )
+      }
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-            <FormularyAddTour handleClose={handleClose}/>
-        </Box>
+        {tour !== undefined && tour.id > 0
+          ? (
+          <Box sx={style}>
+              {
+                  FormularyUpdateTour({ ...tour }, { handleClose })
+              }
+          </Box>
+            )
+          : (
+          <Box sx={style}>
+              <FormularyAddTour handleClose={handleClose}/>
+          </Box>
+            )
+        }
       </Modal>
     </div>
   )

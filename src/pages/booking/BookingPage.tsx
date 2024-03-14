@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { type Tour } from '../../types/Tour'
-import TourTable from '../../components/table/TableTour'
-import { fetchTours } from '../../services/TourService'
+import { type Booking } from '../../types/Booking'
+import BookingTable from '../../components/table/TableBooking'
+import { fetchBookings } from '../../services/BookingService'
 import { Box } from '@material-ui/core'
-import { TourModal } from '../../components/modal/TourModal'
+import { BookingModal } from '../../components/modal/BookingModal'
 
-const TourPage: React.FC = () => {
-  const [tours, setTours] = useState<Tour[]>([])
+const BookingPage: React.FC = () => {
+  const [bookings, setBookings] = useState<Booking[]>([])
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchData = async () => {
       try {
-        const toursData = await fetchTours()
-        setTours(toursData)
+        const bookingsData = await fetchBookings()
+        setBookings(bookingsData)
       } catch (error) {
         console.log(error)
       }
@@ -24,24 +24,24 @@ const TourPage: React.FC = () => {
     <Box style={{ width: '1920px', height: '1080px', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10%' }}>
       <Box style={{ width: '600px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box>
-          <h1>Tour Table</h1>
+          <h1>Booking Table</h1>
         </Box>
         <Box style={{ marginBottom: '-20px' }}>
-          <TourModal id={0} name={''} destiny={''} startDate={''} endDate={''} price={0} />
+          <BookingModal id={0} client={''} bookingDate={''} tourId={0}/>
         </Box>
       </Box>
 
-    {tours.length > 0
+    {bookings.length > 0
       ? (
       <Box >
-        <TourTable tours={tours} />
+        <BookingTable bookings={bookings} />
       </Box>
         )
       : (
-      <p>Loading tours...</p>
+      <p>Loading bookings...</p>
         )}
   </Box>
   )
 }
 
-export default TourPage
+export default BookingPage
